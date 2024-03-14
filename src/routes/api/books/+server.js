@@ -29,8 +29,10 @@ export const POST = async ({ request }) => {
 
   const book = {
     name: body.name,
+    author: body.author,
     pages: body.pages,
     isbn: body.isbn,
+    cover_url: body.cover_url,
   };
 
   // Add the book to Firestore
