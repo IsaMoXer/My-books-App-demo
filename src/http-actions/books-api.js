@@ -2,13 +2,11 @@ import { useBookStore } from "../stores/books.svelte.js";
 
 const getBooks = async () => {
   const response = await fetch("/api/books");
-  //const response = await fetch("http://localhost:8000");
   return await response.json();
 };
 
 const createBook = async book => {
   const response = await fetch("/api/books", {
-    //const response = await fetch("http://localhost:8000", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

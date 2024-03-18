@@ -23,7 +23,7 @@ export const GET = async () => {
 
 export const POST = async ({ request }) => {
   const body = await request.json();
-  if (!body.name || !body.pages || !body.isbn) {
+  if (!body.name || !body.author) {
     return json({ error: "Missing required fields" }, { status: 400 });
   }
 
@@ -33,6 +33,7 @@ export const POST = async ({ request }) => {
     pages: body.pages,
     isbn: body.isbn,
     cover_url: body.cover_url,
+    description: body.description,
   };
 
   // Add the book to Firestore

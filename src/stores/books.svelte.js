@@ -23,7 +23,7 @@ const useBookStore = () => {
     },
     deleteBook: id => {
       books = books.filter(book => book.id !== id);
-    },
+    }
   };
 };
 
