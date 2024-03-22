@@ -1,4 +1,6 @@
-
+<script>
+  import { authHandlers } from "../stores/authStore";
+</script>
 
 <nav class="bg-white border-gray-200 dark:bg-gray-900">
   <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
@@ -13,6 +15,7 @@
       </svg>
       <span class="sr-only">Search</span>
     </button>
+    <button on:click={authHandlers.logout}>Logout</button>
     <div class="relative hidden md:block">
       <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
         <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">

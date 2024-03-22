@@ -7,7 +7,7 @@ const initBooks = async () => {
     console.log("Fetching books...");
     const booksFB = await bookApi.getBooks();
     books = booksFB;
-    console.log("Books after fetching for local variable books:", books);
+    /* console.log("Books after fetching for local variable books:", books); */
   } else {
     console.log("Books list already populated");
   }
@@ -23,7 +23,7 @@ const useBookStore = () => {
     },
     deleteBook: id => {
       books = books.filter(book => book.id !== id);
-    }
+    },
   };
 };
 

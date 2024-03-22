@@ -1,6 +1,8 @@
 // Import the functions you need from the SDKs you need
 import { deleteApp, getApp, getApps, initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
+import { getAuth } from "firebase/auth";
+//import { is_client } from "svelte/internal";
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -27,4 +29,5 @@ if (!getApps().length) {
 }
 
 // Initialize services
-export const db = getFirestore();
+export const db = getFirestore(firebaseApp);
+export const auth = getAuth(firebaseApp);
