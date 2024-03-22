@@ -22,6 +22,7 @@ export const authHandlers = {
   },
   logout: async () => {
     await signOut(auth);
+    await fetch("/logout");
   },
 };
 
