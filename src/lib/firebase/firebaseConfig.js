@@ -2,11 +2,6 @@
 import { deleteApp, getApp, getApps, initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
-//import { getIndexedDBPersistence } from "firebase/auth/indexeddb";
-//import { getIndexedDBPersistence } from "firebase/auth";
-
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -29,11 +24,6 @@ if (!getApps().length) {
   firebaseApp = initializeApp(firebaseConfig);
 }
 
-/* const storage = getIndexedDBPersistence();
-initializeAuth(firebaseApp, {
-  persistence: storage,
-});
- */
 // Initialize services
 export const db = getFirestore(firebaseApp);
 console.log("Firebase Database has been initialized");

@@ -1,5 +1,9 @@
 import admin from "firebase-admin";
-import serviceAccount from "$lib/firebase/firebase-secret.server.json";
+//import serviceAccount from "$lib/firebase/firebase-secret.server.json";
+
+const serviceAccount = JSON.parse(
+  import.meta.env.VITE_FIREBASE_SERVICE_ACCOUNT_KEY
+);
 
 if (admin.apps.length === 0) {
   admin.initializeApp({
