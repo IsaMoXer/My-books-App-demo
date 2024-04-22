@@ -2,29 +2,31 @@
   import BookList from '../../components/book-management/BookList.svelte';
   import AddBook from '../../components/book-management/AddBook.svelte';
   import Book from '../../components/book-management/Book.svelte';
-  import { authHandlers, authStore } from '../../stores/authStore';
-
-  
-  /* let bookList = [];
-  authStore.subscribe((curr) => {
-        bookList = curr.data.books;
-    }); */
 
   let showBookView = $state(false);
   
   let selBook = $state({});
-  const viewBook = (e) => {
-    //console.log("View book-------------> ", e.detail);
+  let edBook = $state({});
+
+  const onViewBook = (e) => {
+    edBook = {};
     selBook = e.detail;
     showBookView = true;
   }
+
+  const onEditBook = (e) => {
+    selBook = {};
+    edBook = e.detail;
+    showBookView = false;
+    console.log('Edit event reached the BookList', edBook);
+  console.log('Book object length: ', Object.keys(edBook).length)}
    
 </script>
-{#if !$authStore.loading}
+<!-- {#if !$authStore.loading} -->
 <div class="flex h-auto">
   {#if !showBookView}
   <div class="w-3/5 border p-4">
-    <AddBook />
+    <AddBook book={edBook}/>
   </div>
   {:else}
   <div class="w-3/5 border p-4 flex flex-col gap-0">
@@ -34,7 +36,8 @@
   {/if}
   
   <div class="w-2/5 border p-4">
-    <BookList on:viewBook={viewBook} />
+    <BookList on:viewBook={onViewBook} on:editBook={onEditBook} />
   </div>
+ 
 </div>
-{/if}
+<!-- {/if} -->

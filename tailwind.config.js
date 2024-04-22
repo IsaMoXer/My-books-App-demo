@@ -3,6 +3,9 @@ export default {
   content: ["./src/**/*.{js,svelte}"],
   theme: {
     extend: {
+      backgroundImage: {
+        "books-pile": "url(images/robert-anasch-McX3XuJRsUM-unsplash.jpg)",
+      },
       colors: {
         bgblue1: "#000428",
         bgblue2: "#000046",
@@ -12,6 +15,9 @@ export default {
         "cyan-css": "#00FFFF",
         "btn-blue": "#003c5b",
         "border-blue": "#0891b2",
+        "main-dark": "#2F2F2F",
+        "light-grey": "#F5F5F5",
+        "mid.grey": "#E2E0E0",
       },
     },
   },

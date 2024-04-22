@@ -15,27 +15,17 @@ export const DELETE = async ({ params }) => {
   return json({ message: "Book deleted successfully" }, { status: 200 });
 };
 
-/* import { json } from "@sveltejs/kit";
-import { db } from "$lib/firebase/firebaseConfig.js";
-import { deleteDoc, doc } from "firebase/firestore";
-import { authStore } from "../../../../stores/authStore.js";
+export const PUT = async ({ request, params }) => {
+  const body = await request.json();
+  //const { id } = params;
+  const id = params.id;
 
-export const DELETE = async ({ params }) => {
-  const { id } = params;
-  const user = authStore.user;
+  console.log("Endpoint check, book to update: ", body);
 
-  if (!user) {
-    return json({ error: "Unauthorized" }, { status: 401 });
-  }
+  // Update the book in Firestore
+  await updateDoc(doc(db, "books", id), body);
 
-  const userDocRef = doc(db, "users", user.uid);
-  const booksCollectionRef = collection(userDocRef, "books");
-  const bookDocRef = doc(booksCollectionRef, id);
+  console.log("Book updated with ID:", id);
 
-  await deleteDoc(bookDocRef);
-
-  console.log("Book deleted successfully!");
-
-  return json({ message: "Book deleted successfully" }, { status: 200 });
+  return json({ message: "Book updated successfully" }, { status: 200 });
 };
- */

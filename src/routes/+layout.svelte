@@ -1,10 +1,10 @@
 <script>
   import "../app.css"
-  import { onDestroy, onMount } from 'svelte';
-  //import { initBooks } from '../stores/books.svelte.js';
+  import {  onMount } from 'svelte';
   import { auth, db } from "$lib/firebase/firebaseConfig";
-  import { getDoc, doc, setDoc, collection, addDoc } from "firebase/firestore";
+  import { getDoc, doc, setDoc } from "firebase/firestore";
   import { authStore, sendJWTToken } from "../stores/authStore";
+  import { initBooks } from "../stores/books.svelte";
 
   let timerId;
 	async function sendServerToken() {
@@ -19,27 +19,30 @@
   const nonAuthRoutes = ["/"];
   onMount(async () => {
     console.log('Mounting register/login page...');
-    //initBooks();
     try {
     const unsubscribe = auth.onAuthStateChanged(async (user) => {
+            await sendJWTToken();
             const currentPath = window.location.pathname;
 
-            if (!user && !nonAuthRoutes.includes(currentPath)) {
+             if (!user && !nonAuthRoutes.includes(currentPath)) {
+                console.log('Client, no user trying to access unauthorized paths')
                 window.location.href = "/";
                 return;
             }
 
             if (user && currentPath === "/") {
+                console.log('Client side, user trying to login when already logged in');
                 window.location.href = "/dashboard";
+                initBooks();
                 return;
-            }
-
+            } 
+            
             if (!user) {
+                console.log('Client side, no user');
                 return;
-            }
+            } 
 
             //There is a logged user in the dashboard
-           await sendJWTToken();
             let dataToSetToStore;
             const docRef = doc(db, "users", user.uid);
             const docSnap = await getDoc(docRef);           
@@ -51,21 +54,11 @@
                 dataToSetToStore = {
                     email: user.email,
                     userId: user.uid,
-                    /* books: [], */
                 };
                 
                 await setDoc(userRef, dataToSetToStore);
-
-                // Create a subcollection called "books" inside the user document
-                const booksCollectionRef = collection(userRef, "books");
-                // Add a sample book to the "books" subcollection
-                const bookData = {
-                    title: "Sample Book",
-                    author: "Sample Author"
-                };
-                
-                await addDoc(booksCollectionRef, bookData);
-        
+            
+            // There is a user created already, fetching info from database...
             } else {
                 console.log("Fetching User");
                 const userData = docSnap.data();
@@ -75,27 +68,28 @@
             // Update the client side from server (database)
             authStore.update((curr) => {
                 return {
-                    /* ...curr, */
+                    curr,
                     user,
                     data: dataToSetToStore,
-                    loading: false,
+                    isLoading: false,
                 };
             });            
         });
         
         await sendServerToken();
-			timerId = setInterval(async () => {
-				await sendServerToken();
-			}, 1000 * 10 * 60);
-         
-            return unsubscribe;
+		timerId = setInterval(async () => {
+			await sendServerToken();
+		}, 1000 * 10 * 60);
+
+        return unsubscribe;
 
 		} catch (e) {
 			console.log(e);
 		}
 		return () => {
 			clearInterval(timerId);
-		};    
+		} 
+
   });
 </script>
 

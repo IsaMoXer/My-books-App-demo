@@ -1,10 +1,11 @@
 <script>
-  import { authHandlers, sendJWTToken } from "../stores/authStore";
+  import { authHandlers } from "../stores/authStore";
 
   let email = $state("");
   let password = $state("");
-  let confrimPass = $state("");
+  let confirmPass = $state("");
   let error = $state(false);
+  let errorConfirm = $state(false);
   let register = $state(true);
   let authenticating = $state(false);
 
@@ -13,9 +14,14 @@
             return;
         }
 
-    if(!email || !password || (register && !confrimPass)){
+    if(!email || !password || (register && !confirmPass)){
       error = true;
       return;
+    }
+
+    if(register && password !== confirmPass) {
+      errorConfirm = true;
+      return
     }
 
     authenticating = true;
@@ -39,22 +45,24 @@
 
 </script>
 
-
-<div class="flex flex-col justify-center items-center flex-1 p-2">
-  <form class="flex flex-col gap-6 my-0 mx-auto w-96 max-w-full">
+<div class="flex flex-col justify-center items-center flex-1 px-2 mx-auto">
+  <img src="/images/Book_app_logo.png" alt="Logo" class="h-20 w-auto mb-6">
+  <form class="flex flex-col gap-6 my-0 mx-auto w-60 sm:w-96">
     <h1 class="text-4xl text-center font-bold">{register ? "Register" : "Login"}</h1>
     {#if error}
     <p class="text-coral-css text-sm text-center">The email address or the password are not correct!</p>
+    {:else if errorConfirm}
+    <p class="text-coral-css text-sm text-center">Your password and confirmation password do not match!</p>
     {/if}
     <label for="email">
-      <input bind:value={email} class="text-sm w-full bg-transparent text-black p-1" type="email" placeholder="Email" name="email">
+      <input bind:value={email} class="text-sm w-full bg-transparent text-white p-1" type="email" placeholder="Email" name="email">
     </label>
     <label for="password">
-      <input bind:value={password} class="text-sm w-full bg-transparent text-black p-1" type="password" placeholder="Password" name="password">
+      <input bind:value={password} class="text-sm w-full bg-transparent text-white p-1" type="password" placeholder="Password" name="password">
     </label>
     {#if register}
       <label for="confirmPassword">
-        <input bind:value={confrimPass} class="text-sm w-full bg-transparent text-black p-1" type="password" placeholder="Confirm password" name="confirmPassword">
+        <input bind:value={confirmPass} class="text-sm w-full bg-transparent text-white p-1" type="password" placeholder="Confirm password" name="confirmPassword">
       </label>
     {/if}
     
