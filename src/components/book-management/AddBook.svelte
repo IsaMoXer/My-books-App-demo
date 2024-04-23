@@ -30,7 +30,7 @@
   });
 
   const addBook = async () => {
-    /* If there is a book in the props. it means that user wants to update the book */
+    /* If there is a book in the props, it means that user wants to update the book */
     if (Object.keys(book).length) {
       isLoading = true;
       console.log("I need to pass both the book ID and the book object!", book.id, book.description);
@@ -44,7 +44,7 @@
       cover_url,
       author,
       description,
-      isFavourite,
+      //isFavourite,
     };
       updatedBook.id = book.id;
 
