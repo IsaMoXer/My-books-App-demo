@@ -33,7 +33,7 @@ export async function handle({ event, resolve }) {
 
   //Possible solution to the infite loop after logging in
 
-  if (url.pathname !== "/") {
+  /* if (url.pathname !== "/") {
     if (!user && protectRoutes.some(u => url.pathname.startsWith(u))) {
       console.log("User not logged in trying to access protected routes!");
       return redirect(302, "/");
@@ -42,7 +42,7 @@ export async function handle({ event, resolve }) {
       console.log("Server side, user logged in trying to accees login page");
       //return redirect(302, "/dashboard");
     }
-  }
+  } */
 
   const response = await resolve(event);
 
