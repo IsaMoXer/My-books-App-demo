@@ -64,3 +64,7 @@ npm run build
 You can preview the production build with `npm run preview`.
 
 > To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+
+You can also find a deployed version of the app in this address (not the final version!):
+
+> [My Book App](https://book-svelte-firebase-vercel.vercel.app/)
