@@ -2,21 +2,23 @@
   import { createBook, updateBook } from "../../http-actions/books-api.js";
   import { initBooks } from '../../stores/books.svelte.js';
 
+  // This is the book that comes as a prop if user wants to update it
   let { book } = $props();
   console.log("Book property: ", book);
 
+  // State variables for the form (both adding and updating)
   let name = $state("");
   let author = $state("");
   let pages = $state(null);
   let isbn = $state("");
   let cover_url = $state("");
   let description = $state("");
-  let error = $state(false);
-  //let isFavourite = true;
 
+  let error = $state(false);
   let isLoading = $state(false);
 
-  /* This populates the fields of the form in case the AddBook component receivces a 'book' as a property to be updated*/
+  // This populates the fields of the form in case the AddBook component receivces a 'book' as a property to be updated
+  // The $effect rune ensures that the form fields are updated whenever the book object changes
   $effect(() => {
     if (book) {
       name = book.name;
@@ -25,17 +27,36 @@
       isbn = book.isbn;
       cover_url = book.cover_url;
       description = book.description;
-      //isFavourite = book.isFavourite;
     }
   });
 
+  // Check if the book to be updated has actually been updated
+  function hasBookDataChanged(existingBook, newBook) {
+    for (const key in newBook) {
+      if (newBook[key] !== existingBook[key]) {
+        return true;
+      }
+    }
+    return false;
+  };
+
+  // User wants to cancel the update after clicking update button and populating all fields in the form
+  function handleCancelUpdate() {
+    book = {}; 
+   /*  name = "";
+    author = "";
+    pages = null;
+    isbn = "";
+    cover_url = "";
+    description = ""; */
+  };
+
   const addBook = async () => {
-    /* If there is a book in the props, it means that user wants to update the book */
+    // If there is a book in the props, it means that user wants to update the book 
     if (Object.keys(book).length) {
       isLoading = true;
       console.log("I need to pass both the book ID and the book object!", book.id, book.description);
-      // Add error handling for not updating a book and clicking the update button. To be added later. 
-
+    
       // Update the book object with the new values
       const updatedBook = {
       name,
@@ -46,11 +67,15 @@
       description,
       //isFavourite,
     };
+      // The book id cannot be updated, so the existing id is added to the udpatedBook object
       updatedBook.id = book.id;
 
       console.log('Book before updateing: ', updatedBook);
+      
+      // Check if the book to update has actually changed
+      if (hasBookDataChanged(book, updatedBook)) {
       const response = await updateBook(updatedBook.id, updatedBook);
-      console.log('Book after updateing: ', updatedBook);
+      console.log('Book after updating: ', updatedBook);
 
       if (response.error) {
         error = true;
@@ -72,12 +97,18 @@
       description = "";
 
       console.log("Book updated!");
-      /* Init books, so that the component can be re-rendered, therefore updated with new changes without refreshing. */
+      // Init books, so that the component can be re-rendered, therefore updated with new changes without refreshing.
       initBooks();
       return;
+    } else {
+      console.log("No changes detected, skipping update.");
+      alert("You are trying to update a book you haven't modified!");
+      isLoading = false;
+      return;
     }
+  }
 
-    /* Functionality to ADD a book*/
+    // Functionality to ADD a book
     const bookData = {
       name,
       pages,
@@ -107,9 +138,7 @@
     console.log('This is the added book: ', bookData)
   };
 
-  function handleCancleUpdate() {
-    book = {};
-  };
+
 </script>
 
 
@@ -122,27 +151,32 @@
   <p class="spinner"></p>
 {:else}
 <form class="max-w-sm mx-auto">
-  <h1 class="text-center mb-4">ADD A BOOK</h1>
-  <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Book name:</label>
-  <input type="text" id="name" name="name" bind:value={name} class="block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" /><br />
-  <label for="author" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Author:</label>
-  <input type="text" id="author" name="author" bind:value={author} class="block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" /><br />
-  <label for="pages" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Number of pages:</label>
-  <input type="number" id="pages" name="pages" bind:value={pages} class="block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" /><br />
-  <label for="isbn" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">ISBN:</label>
-  <input type="text" id="isbn" name="isbn" bind:value={isbn} class="block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" /><br />
-  <label for="cover_url" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Image url:</label>
-  <input type="text" id="cover_url" name="cover_url" bind:value={cover_url} class="block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" /><br />
+  <h1 class="text-center mb-12">ADD A BOOK</h1>
+
+  <!-- <label for="name" class="block mb-2 text-sm">Book name:</label> -->
+  <input type="text" id="name" name="name" bind:value={name} placeholder="Book title" class="block w-full p-2 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500" /><br />
+
+  <!-- <label for="author" class="block mb-2 text-sm">Author:</label> -->
+  <input type="text" id="author" name="author" bind:value={author} placeholder="Author" class="block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500" /><br />
+
+  <!-- <label for="pages" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Number of pages:</label> -->
+  <input type="number" id="pages" name="pages" bind:value={pages} placeholder="Number of pages" class="block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500" /><br />
+
+  <!-- <label for="isbn" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">ISBN:</label> -->
+  <input type="text" id="isbn" name="isbn" bind:value={isbn} placeholder="isbn" class="block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500" /><br />
+
+  <!-- <label for="cover_url" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Image url:</label> -->
+  <input type="text" id="cover_url" name="cover_url" bind:value={cover_url} placeholder="Cover URL" class="block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500" /><br />
   
-  <label for="description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your description:</label>
-  <textarea id="description" bind:value={description} rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Write your thoughts here..." maxlength="250"></textarea>
+  <!-- <label for="description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your description:</label> -->
+  <textarea id="description" bind:value={description} rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Write your thoughts here..." maxlength="250"></textarea>
   <br />
   <div class="text-center">
       
     <button on:click={addBook} class="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded-full">{Object.keys(book).length !== 0 ? 'Update' : 'Submit'}</button>
 
     {#if Object.keys(book).length !== 0}
-      <button on:click={handleCancleUpdate} class="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded-full ml-4">Cancel </button>
+      <button on:click={handleCancelUpdate} class="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded-full ml-4">Cancel </button>
     {/if}
     
   </div>

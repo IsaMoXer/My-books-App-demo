@@ -8,7 +8,7 @@ const getBooks = async () => {
 };
 
 const createBook = async book => {
-  console.log("Book received from compoentn form: ", book);
+  console.log("Book received from component form: ", book);
   const response = await fetch("/api/books", {
     method: "POST",
     headers: {
@@ -28,7 +28,7 @@ const createBook = async book => {
 
 const updateBook = async (id, updatedBook) => {
   const response = await fetch(`/api/books/${id}`, {
-    method: "PUT",
+    method: "PATCH",
     headers: {
       "Content-Type": "application/json",
     },

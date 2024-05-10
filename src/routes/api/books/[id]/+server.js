@@ -15,7 +15,7 @@ export const DELETE = async ({ params }) => {
   return json({ message: "Book deleted successfully" }, { status: 200 });
 };
 
-export const PUT = async ({ request, params }) => {
+export const PATCH = async ({ request, params }) => {
   const body = await request.json();
   //const { id } = params;
   const id = params.id;

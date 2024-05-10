@@ -1,1 +1,5 @@
-<p class="h-screen">This is the about page</p>
+<script>
+  import About from "../../../components/About.svelte";
+</script>
+
+<About />

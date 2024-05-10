@@ -1,8 +1,9 @@
 <script>
   import { deleteBook } from '../../http-actions/books-api';
   import { createEventDispatcher } from 'svelte';
-  import { useBookStore } from '../../stores/books.svelte.js';
+  import { initBooks, useBookStore } from '../../stores/books.svelte.js';
   import { authStore, authStoreRead } from '../../stores/authStore';
+  import { updateBook } from '../../http-actions/books-api';
 
 
   console.log('User from client side------------> ', $authStore.user);
@@ -26,9 +27,20 @@
     dispatch('editBook', editingdBook);
   }
 
-  const handleToggleFavourite = (id) => {
-    // Add functionality to toggle the isFavourite property
+  const handleDeleteBook = (bookId) => {
+    deleteBook(bookId);
+    dispatch('deleteBook');
+  }
+
+  const handleToggleFavourite = (id, book) => {
     console.log('You clicked on Favs!', id);
+  
+    const updatedBook = {...book, isFavourite: !book.isFavourite};
+    console.log('Updated book with isFavourite prop toggled: ', updatedBook, 'Fav: ', updatedBook.isFavourite);
+    updateBook(id, updatedBook);
+    console.log('isFavourite property toggled successfully');
+    initBooks();
+
   }
 
 </script>
@@ -36,6 +48,17 @@
 <!-- Book list -->
 <div class="flex flex-col gap-2 max-h-screen overflow-y-auto" style="scrollbar-width: none;">
   <h1 class="text-center">YOUR BOOKS</h1>
+
+  <!--Order book by start -->
+  <select class="bg-transparent border border-slate-200 p-2 my-6">
+    <option>
+      Order by title
+    </option>
+    <option>
+      Order by author
+    </option>
+  </select>
+  <!--Order book by end -->
 
   {#if $authStore.isLoading}
   <div class="h-screen flex items-center justify-center">
@@ -46,21 +69,27 @@
   {:else}
       <ul class="space-y-2">
         {#each bookStore.books as book, index}
-        <li class="border-b-2 flex justify-between items-center">
-          <span>{index + 1}. {book.name}</span> <div class="flex justify-between items-center">
-            <button on:click={() => {
+        <li class="border-b-2 flex justify-between items-center pb-2">
+          <div class="flex justify-center items-center gap-6">
+
+            <img src={book.cover_url ? book.cover_url : 'images/missing_cover.png'} alt="cover of the book" class="h-16 w-auto">
+                     
+            <button class="hover:text-coral-css hover:font-semibold" on:click={() => {
               selectedBook = book
               handleViewBook()
-              }}
-              class="text-white bg-gray-800 hover:bg-gray-200 hover:text-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-full text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700">View</button>
-              
+              }}>{index + 1}. {book.name}</button>
+          </div>
+          <div class="flex justify-between items-center">    
               <div class="flex gap-4 mr-4">
-                <button on:click={() => deleteBook(book.id)} class=""><i class="fa-solid fa-trash-can hover:text-coral-css hover:scale-125"></i></button>
+                <!-- Delete button -->
+                <button on:click={() => handleDeleteBook(book.id)} class=""><i class="fa-solid fa-trash-can hover:text-coral-css hover:scale-125"></i></button>
+                <!-- Edit button -->
                 <button on:click={() => {
                   editingdBook = book
                   handleEditBook()
                   }}><i class="fa-solid fa-pen-to-square hover:text-coral-css hover:scale-125"></i></button>
-                  <button on:click={() => handleToggleFavourite(book.id)}>
+                  <!-- Favourite button -->
+                  <button on:click={() => handleToggleFavourite(book.id, book)}>
                     <i class={`fa-${!book.isFavourite ? "regular" : "solid"} fa-bookmark hover:text-coral-css hover:scale-125`}></i>
                   </button>
               </div>

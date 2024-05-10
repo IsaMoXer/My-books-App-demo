@@ -1,20 +1,48 @@
-# create-svelte
+# SvelteKit Firebase App
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/main/packages/create-svelte).
+This is a SvelteKit app that uses Firebase and Firebase Admin for backend functionality.
 
-## Creating a project
+## Prerequisites
 
-If you're seeing this, you've probably already done this step. Congrats!
+- Node.js (version 14 or higher)
+- Git
+
+## Installation
+
+### Clone the Repository
 
 ```bash
-# create a new project in the current directory
-npm create svelte@latest
-
-# create a new project in my-app
-npm create svelte@latest my-app
+git clone https://github.com/your-username/your-repo.git
 ```
 
-## Developing
+### Navigate to the Project Directory
+
+```bash
+cd your-repo
+```
+
+### Install Dependencies
+
+```bash
+npm install
+```
+
+### Install Firebase and Firebase Admin
+
+```bash
+npm install firebase
+npm install firebase-admin
+```
+
+### Configure Firebase
+
+- Add your Firebase SDK configuration details to your SvelteKit app.
+
+### Configure Firebase Admin
+
+- Initialize Firebase Admin with the necessary credentials and settings.
+
+### Start the Development Server
 
 Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
 

@@ -1,17 +1,73 @@
+<script>
+  import { useBookStore } from "../stores/books.svelte";
+  import { authStore } from "../stores/authStore";
+  export let toggleModal;
+
+  const bookStore = useBookStore();
+
+  const favBooks = bookStore.books.filter(book => book.isFavourite);
+
+  function handleEscape(e) {
+    if(e.key === "Escape"){
+      toggleModal();
+    } 
+  }
+/*   document.addEventListener('keydown', handleEscape); */
+
+</script>
+<svelte:window on:keydown|preventDefault={handleEscape}/>
+ <!-- Favourites div -->
 <div class="fixed inset-0 flex items-center justify-center z-10">
-  <div class="w-full max-w-2xl bg-white p-16 rounded-lg shadow-xl">
-    <button class="relative top-[-4rem] right-[-34rem] text-5xl text-black cursor-pointer">&times;</button>
-  <h1>I'm a modal window 😍</h1>
-  <p>
-    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-    veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-    commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-    velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
-    occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-    mollit anim id est laborum.
-  </p>
+  <div class="w-full max-w-2xl bg-btn-blue p-16 pt-0 rounded-lg shadow-xl text-slate-100">
+    <button class="relative top-0 right-[-34rem] text-5xl text-black cursor-pointer" on:click={toggleModal}>&times;</button>
+
+  <!-- Book list -->
+  <div class="flex flex-col gap-2 max-h-screen overflow-y-auto" style="scrollbar-width: none;">
+    <img src="/images/hearts.png" alt="Logo" class="w-32 h-auto m-auto pb-4">
+    <!-- <img src="" alt="book love image"/> -->
+    <h1 class="text-center mb-8">YOUR FAVOURITE BOOKS</h1>
+
+    {#if $authStore.isLoading}
+    <div class="h-screen flex items-center justify-center">
+      <p class="spinner"></p>
+    </div>
+    {:else if favBooks.length === 0}
+      <p>You haven't bookmarked anything yet!</p>
+    {:else}
+        <ul class="space-y-2 listOverflow">
+          {#each favBooks as book, index}
+          <li class="border-b-2 flex justify-between items-center">
+            <span>{index + 1}. {book.name}</span> 
+          </li>
+          {/each}
+        </ul>
+      {/if}
+  </div>
   </div>
 </div>
+ <!-- Modal window blurred -->
 <div class="fixed inset-0 bg-black/60 backdrop-blur-sm z-5"></div>
 
+<style>
+  .listOverflow {
+    overflow-y: scroll;
+    scrollbar-width: none;
+    overflow-x: hidden;
+  }
+
+  .spinner {
+    border: 4px solid rgba(0, 0, 0, 0.1);
+    border-left-color: #09f;
+    animation: spin 1s linear infinite;
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    margin: 20px auto;
+  }
+
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+</style>

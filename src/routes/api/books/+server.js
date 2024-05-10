@@ -41,15 +41,25 @@ export const POST = async ({ request, locals }) => {
     return json({ error: "Missing required fields" }, { status: 400 });
   }
 
+  let coverUrl = "";
+  try {
+    // Attempt to load the provided cover image
+    await fetch(body.cover_url);
+    coverUrl = body.cover_url;
+  } catch (error) {
+    // If the image fails to load, use a default image URL
+    coverUrl = "images/missing_cover.png";
+  }
+
   const book = {
     name: body.name,
     author: body.author,
-    pages: body.pages,
-    isbn: body.isbn,
-    cover_url: body.cover_url,
-    description: body.description,
+    pages: body.pages || null,
+    isbn: body.isbn || "",
+    cover_url: coverUrl,
+    description: body.description || "",
     user_id: locals.user?.id,
-    isFavourite: body.isFavourite,
+    isFavourite: body.isFavourite || false,
   };
 
   // Add the book to Firestore

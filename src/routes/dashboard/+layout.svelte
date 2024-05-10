@@ -5,7 +5,13 @@ import { initBooks } from '../../stores/books.svelte.js';
 import Navbar from '../../components/Navbar.svelte';
 import Footer from '../../components/Footer.svelte';
 import { authStoreRead } from "../../stores/authStore";
+import ModalFav from "../../components/ModalFav.svelte";
 
+let showModal = false;
+const toggleModal = () => {
+    showModal = !showModal;
+    console.log('Show Modal: ', showModal);
+  };
 /**This will prevent client side rendering before user is logged in*/
 export let data;
 let isLoggedIn = data.isLoggedIn;
@@ -22,8 +28,11 @@ onMount(() => {
 </script>
 
 {#if isLoggedIn}
-<Navbar />
+<Navbar toggleModal={toggleModal} />
 <slot />
 <Footer />
 {/if}
 
+{#if showModal}
+  <ModalFav toggleModal={toggleModal} />
+{/if}

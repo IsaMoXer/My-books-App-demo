@@ -21,6 +21,11 @@
     console.log('Edit event reached the BookList', edBook);
   console.log('Book object length: ', Object.keys(edBook).length)}
    
+  const onDeleteBook = () => {
+    edBook = {}
+    showBookView =  false;
+  }
+
 </script>
 <!-- {#if !$authStore.loading} -->
 <div class="flex h-auto">
@@ -36,7 +41,7 @@
   {/if}
   
   <div class="w-2/5 border p-4">
-    <BookList on:viewBook={onViewBook} on:editBook={onEditBook} />
+    <BookList on:viewBook={onViewBook} on:editBook={onEditBook} on:deleteBook={onDeleteBook} />
   </div>
  
 </div>

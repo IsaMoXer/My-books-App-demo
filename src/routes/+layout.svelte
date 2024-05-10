@@ -94,3 +94,7 @@
 </script>
 
 <slot />
+
+<svelte:head>
+  <title>My Books App</title>
+</svelte:head>
