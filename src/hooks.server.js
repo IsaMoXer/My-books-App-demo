@@ -18,7 +18,7 @@ export async function handle({ event, resolve }) {
   const url = event.url;
   console.log("User from Firebase: ", user);
 
-  if (url.pathname !== "/") {
+  /*  if (url.pathname !== "/") {
     if (!user && protectRoutes.find(u => url.pathname.indexOf(u) > -1)) {
       console.log("User not logged in trying to access protected routes!");
       //throw redirect(302, `/?redirect=${url.pathname}`);
@@ -29,22 +29,21 @@ export async function handle({ event, resolve }) {
       console.log("Server side, user logged in trying to accees login page");
       //throw redirect(302, "/dashboard");
     }
-  }
+  } */
 
-  /**Possible solution to the infite loop after logging in
-   * 
-   *  if (url.pathname !== "/") {
+  //Possible solution to the infite loop after logging in
+
+  if (url.pathname !== "/") {
     if (!user && protectRoutes.some(u => url.pathname.startsWith(u))) {
       console.log("User not logged in trying to access protected routes!");
-      throw redirect(302, "/");
+      return redirect(302, "/");
     }
     if (user && guessRoutes.some(u => url.pathname.startsWith(u))) {
       console.log("Server side, user logged in trying to accees login page");
-      throw redirect(302, "/dashboard");
+      //return redirect(302, "/dashboard");
     }
   }
-  
-   */
+
   const response = await resolve(event);
 
   return response;
