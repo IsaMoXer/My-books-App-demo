@@ -33,8 +33,8 @@ export async function handle({ event, resolve }) {
       console.log("Server side, user logged in trying to accees login page");
       //throw redirect(302, "/dashboard");
     }
-  }
- */
+  } */
+
   /* if (url.pathname !== "/") {
     if (!user && protectRoutes.some(u => url.pathname.startsWith(u))) {
       console.log("User not logged in trying to access protected routes!");
