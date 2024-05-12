@@ -25,8 +25,9 @@
     edBook = {}
     showBookView =  false;
   }
-
 </script>
+
+
 <!-- {#if !$authStore.loading} -->
 <div class="flex h-auto">
   {#if !showBookView}
