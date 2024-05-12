@@ -20,7 +20,7 @@ export async function handle({ event, resolve }) {
 
   //Possible solution to the infite loop after logging in in production
   // skip auth logic on build to prevent infinite redirection in production mode
-  if (process?.env?.BUILD) return resolve(event);
+  /*  if (process?.env?.BUILD) return resolve(event);
 
   if (url.pathname !== "/") {
     if (!user && protectRoutes.find(u => url.pathname.indexOf(u) > -1)) {
@@ -34,7 +34,7 @@ export async function handle({ event, resolve }) {
       //throw redirect(302, "/dashboard");
     }
   }
-
+ */
   /* if (url.pathname !== "/") {
     if (!user && protectRoutes.some(u => url.pathname.startsWith(u))) {
       console.log("User not logged in trying to access protected routes!");
