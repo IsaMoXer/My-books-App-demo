@@ -4,6 +4,7 @@
   import { initBooks, useBookStore } from '../../stores/books.svelte.js';
   import { authStore, authStoreRead } from '../../stores/authStore';
   import { updateBook } from '../../http-actions/books-api';
+  import { derived } from 'svelte/store';
 
 
   console.log('User from client side------------> ', $authStore.user);
@@ -15,7 +16,9 @@
   let dispatch = createEventDispatcher();
   let selectedBook = $state(null); 
   let editingdBook = $state(null); 
-  
+  let selectedOption = $state("");
+  let orderedBookList = $state([]);
+ 
   
   const handleViewBook = () => {
     console.log('handleViewBook event pressed!');
@@ -43,23 +46,31 @@
 
   }
 
+  const handleOrderBy = () => {
+      if (selectedOption === "byTitle") {
+        orderedBookList = bookStore.books.slice().sort((a, b) => a.name.localeCompare(b.name));
+      } else if (selectedOption === "byAuthor") {
+        orderedBookList = bookStore.books.slice().sort((a, b) => a.author.localeCompare(b.author));
+      } 
+  }
 </script>
 
 <!-- Book list -->
 <div class="flex flex-col gap-2 max-h-screen overflow-y-auto" style="scrollbar-width: none;">
   <h1 class="text-center">YOUR BOOKS</h1>
 
-  <!--Order book by start -->
-  <select class="bg-transparent border border-slate-200 p-2 my-6">
-    <option>
+  <!--Order book by -->
+  <select class="bg-transparent border border-slate-200 p-2 my-6" bind:value={selectedOption} on:change={handleOrderBy}>
+    <option value="">--Choose an order option--</option>
+    <option value="byTitle">
       Order by title
     </option>
-    <option>
+    <option value="byAuthor">
       Order by author
     </option>
   </select>
-  <!--Order book by end -->
-
+  
+  
   {#if $authStore.isLoading}
   <div class="h-screen flex items-center justify-center">
     <p class="spinner"></p>
@@ -67,18 +78,22 @@
   {:else if bookStore.books.length === 0}
     <p>No books to show yet!</p>
   {:else}
-      <ul class="space-y-2">
-        {#each bookStore.books as book, index}
-        <li class="border-b-2 flex justify-between items-center pb-2">
-          <div class="flex justify-center items-center gap-6">
+    <ul class="space-y-2">  
+      <!-- Display books based on selected order -->
+        {#each orderedBookList.length === 0 ? bookStore.books : orderedBookList as book, index}
+        <!-- Book row -->
+        <li class="border-b-2 flex justify-between items-center pb-2 gap-6">
+          <button class="flex justify-center items-center gap-6 hover:text-coral-css hover:font-semibold" on:click={() => {
+            selectedBook = book
+            handleViewBook()
+            }}>
 
             <img src={book.cover_url ? book.cover_url : 'images/missing_cover.png'} alt="cover of the book" class="h-16 w-auto">
-                     
-            <button class="hover:text-coral-css hover:font-semibold" on:click={() => {
-              selectedBook = book
-              handleViewBook()
-              }}>{index + 1}. {book.name}</button>
-          </div>
+        
+    
+            <p class="text-left">{index + 1}. {book.name}</p>
+          </button>
+          <!-- Div with modifying buttons (delete, editBook, bookmark)-->
           <div class="flex justify-between items-center">    
               <div class="flex gap-4 mr-4">
                 <!-- Delete button -->

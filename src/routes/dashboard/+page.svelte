@@ -28,22 +28,22 @@
 </script>
 
 
-<!-- {#if !$authStore.loading} -->
-<div class="flex h-auto">
+
+<div class="flex h-auto flex-col md:flex-row">
   {#if !showBookView}
-  <div class="w-3/5 border p-4">
+  <!-- AddBook Form-->
+  <div class="md:w-2/5 lg:w-1/2 border p-12">
     <AddBook book={edBook}/>
   </div>
   {:else}
-  <div class="w-3/5 border p-4 flex flex-col gap-0">
+  <!-- ViewBook -->
+  <div class="md:w-2/5 lg:w-1/2 border p-12 flex flex-col gap-0">
     <Book book={selBook}/>
     <button on:click={() => showBookView = false} class="bg-blue-500 hover:bg-blue-700 text-white py-2 px-10 rounded-full self-center mb-12">CLEAR</button>
   </div>
   {/if}
-  
-  <div class="w-2/5 border p-4">
+  <!-- List of Books -->
+  <div class="md:w-3/5 lg:w-1/2 border p-12">
     <BookList on:viewBook={onViewBook} on:editBook={onEditBook} on:deleteBook={onDeleteBook} />
   </div>
- 
 </div>
-<!-- {/if} -->

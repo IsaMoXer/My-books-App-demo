@@ -2,18 +2,21 @@
   let { book } = $props();
 </script>
 
-
-<div class="flex justify-around items-center m-12 mb-16">
-  <div class="w-1/2">
-    <div class="h-96 w-64 m-auto bg-gray-200 flex items-center justify-center">
-      {#if book.cover_url && book.cover_url !== ""}
+<!-- Container for both Cover and Data -->
+<div class="flex flex-col justify-between items-center my-16 gap-8 lg:flex-row">
+  <!-- Cover of the book -->
+  <div class="lg:w-1/2">
+    <div class="max-w-64 h-auto m-auto bg-gray-200 flex items-center justify-center">
+      <img class="h-full w-full object-cover" src={book.cover_url} alt="cover of the book">
+      <!-- {#if book.cover_url && book.cover_url !== ""}
       <img src={book.cover_url} alt="cover of the book" class="h-full w-full object-cover">
       {:else}
       <p class="text-center">Cover of the book not available!</p>
-      {/if}
+      {/if} -->
     </div>
   </div>
-  <div class="w-1/2 flex flex-col gap-4">
+  <!-- Book data -->
+  <div class="lg:w-1/2 flex flex-col gap-4">
     <h1 class="font-bold">{book.name}</h1>
     <p>Author: {book.author}</p>
     <p>Number of pages: {book.pages}</p>
