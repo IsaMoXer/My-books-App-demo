@@ -38,7 +38,9 @@
             } 
             
             if (!user) {
-                console.log('Client side, no user');
+                // Clean up data when user logs out
+                authStore.update(() => ({ user: null, data: null, isLoading: false }));
+                console.log('Client side, no user, data clean');
                 return;
             } 
 
@@ -66,9 +68,8 @@
                 dataToSetToStore = userData;
             }
             // Update the client side from server (database)
-            authStore.update((curr) => {
+            authStore.update(() => {
                 return {
-                    curr,
                     user,
                     data: dataToSetToStore,
                     isLoading: false,
