@@ -4,7 +4,6 @@
   import { initBooks, useBookStore } from '../../stores/books.svelte.js';
   import { authStore, authStoreRead } from '../../stores/authStore';
   import { updateBook } from '../../http-actions/books-api';
-  import { derived } from 'svelte/store';
 
 
   console.log('User from client side------------> ', $authStore.user);

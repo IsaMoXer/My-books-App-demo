@@ -8,6 +8,7 @@ import {
 import { auth } from "$lib/firebase/firebaseConfig.js";
 import { readable, writable } from "svelte/store";
 import { browser } from "$app/environment";
+import { useBookStore, initBooks } from "./books.svelte";
 
 export const authStore = writable({
   user: null,
@@ -25,7 +26,15 @@ export const authHandlers = {
   logout: async () => {
     await signOut(auth);
     await fetch("/logout");
+    // Clear the books store after logout
+    clearBooksStore();
   },
+};
+
+const clearBooksStore = () => {
+  const { books } = useBookStore();
+  books.set([]);
+  console.log("Cleared the books store after logout");
 };
 
 ////////////////////////////////////////////////

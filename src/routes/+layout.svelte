@@ -6,6 +6,7 @@
   import { authStore, sendJWTToken } from "../stores/authStore";
   import { initBooks } from "../stores/books.svelte";
 
+
   let timerId;
 	async function sendServerToken() {
 		try {
@@ -38,9 +39,9 @@
             } 
             
             if (!user) {
-                // Clean up data when user logs out
+                /* // Clean up data when user logs out
                 authStore.update(() => ({ user: null, data: null, isLoading: false }));
-                console.log('Client side, no user, data clean');
+                console.log('Client side, no user, data clean'); */
                 return;
             } 
 

@@ -3,8 +3,11 @@ import * as bookApi from "../http-actions/books-api.js";
 let books = $state([]);
 
 const initBooks = async () => {
-  //Clear the books array also from client side before fetching the books
-  books = [];
+  /* //Clear the books array also from client side before fetching the books
+  books = []; */
+  console.log(
+    "Clearing the books array before fetching new ones in the initBooks()"
+  );
   const booksFB = await bookApi.getBooks();
   books = booksFB;
 };

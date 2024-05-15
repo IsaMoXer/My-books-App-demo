@@ -10,7 +10,6 @@ import ModalFav from "../../components/ModalFav.svelte";
 let showModal = false;
 const toggleModal = () => {
     showModal = !showModal;
-    console.log('Show Modal: ', showModal);
   };
 /**This will prevent client side rendering before user is logged in*/
 export let data;
