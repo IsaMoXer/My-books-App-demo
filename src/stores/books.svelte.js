@@ -2,17 +2,9 @@ import * as bookApi from "../http-actions/books-api.js";
 
 let books = $state([]);
 
-/* const initBooks = async () => {
-  if (books.length === 0) {
-    console.log("Fetching books...");
-    const booksFB = await bookApi.getBooks();
-    books = booksFB;
-  } else {
-    console.log("Books list already populated");
-  }
-}; */
-
 const initBooks = async () => {
+  //Clear the books array also from client side before fetching the books
+  books = [];
   const booksFB = await bookApi.getBooks();
   books = booksFB;
 };
