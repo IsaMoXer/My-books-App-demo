@@ -28,6 +28,7 @@ export const authHandlers = {
     await fetch("/logout");
     // Clear the books store after logout
     clearBooksStore();
+    console.log("Books array cleared after logout");
   },
 };
 
