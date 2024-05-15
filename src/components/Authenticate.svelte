@@ -4,17 +4,17 @@
   let email = $state("");
   let password = $state("");
   let confirmPass = $state("");
-  let error = $state(false);
-  let errorConfirm = $state(false);
   let register = $state(true);
   let authenticating = $state(false);
+  let error = $state(false);
+  let errorConfirm = $state(false);
 
   async function handleAuthenticate() {
     if (authenticating) {
             return;
         }
 
-    if(!email || !password || (register && !confirmPass)){
+    if (!validateEmail(email) || !validatePassword(password) || (register && !confirmPass)) {
       error = true;
       return;
     }
@@ -42,6 +42,16 @@
   function handleRegister() {
       register = !register;
   };
+
+  function validateEmail(email) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  }
+
+  function validatePassword(password) {
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
+    return passwordRegex.test(password);
+  }
 
 </script>
 
