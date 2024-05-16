@@ -25,6 +25,10 @@ const useBookStore = () => {
         book.id === id ? { ...book, ...updatedBook } : book
       );
     },
+    resetBooks: () => {
+      books = [];
+      console.log("Books reseted: ", books);
+    },
   };
 };
 

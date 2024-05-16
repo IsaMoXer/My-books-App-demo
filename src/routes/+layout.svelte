@@ -8,8 +8,6 @@
 
 
   let timerId;
-  let unsubscribe;
-
 	async function sendServerToken() {
 		try {
 			await sendJWTToken();
@@ -20,16 +18,10 @@
 	}
    
   const nonAuthRoutes = ["/"];
-  
   onMount(async () => {
     console.log('Mounting register/login page...');
     try {
-    unsubscribe = auth.onAuthStateChanged(async (user) => {
-        if (!user) {
-                // Clean up data when user logs out
-                authStore.update(() => ({ user: null, data: null, isLoading: false }));
-                return;
-            } 
+    const unsubscribe = auth.onAuthStateChanged(async (user) => {
             await sendJWTToken();
             const currentPath = window.location.pathname;
 
@@ -46,11 +38,11 @@
                 return;
             } 
             
-            /* if (!user) {
+            if (!user) {
                 // Clean up data when user logs out
                 authStore.update(() => ({ user: null, data: null, isLoading: false }));
                 return;
-            }  */
+            } 
 
             //There is a logged user in the dashboard
             let dataToSetToStore;
@@ -85,6 +77,7 @@
                 };
             });            
         });
+
         
         await sendServerToken();
 		timerId = setInterval(async () => {

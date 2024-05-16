@@ -27,10 +27,12 @@ export const authHandlers = {
     await signOut(auth);
     await fetch("/logout");
     // Clear the books store after logout
-    clearBooksStore();
-    localStorage.clear();
+    //clearBooksStore();
+    const bookStore = useBookStore();
+    bookStore.resetBooks();
+    /* localStorage.clear();
     sessionStorage.clear();
-    window.location.reload();
+    window.location.reload(); */
   },
 };
 
