@@ -69,8 +69,9 @@
                 dataToSetToStore = userData;
             }
             // Update the client side from server (database)
-            authStore.update(() => {
+            authStore.update((curr) => {
                 return {
+                    ...curr,
                     user,
                     data: dataToSetToStore,
                     isLoading: false,
