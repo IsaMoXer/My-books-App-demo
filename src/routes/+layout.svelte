@@ -39,9 +39,8 @@
             } 
             
             if (!user) {
-                /* // Clean up data when user logs out
+                // Clean up data when user logs out
                 authStore.update(() => ({ user: null, data: null, isLoading: false }));
-                console.log('Client side, no user, data clean'); */
                 return;
             } 
 
@@ -78,6 +77,8 @@
                 };
             });            
         });
+
+        windows.location.reload();
         
         await sendServerToken();
 		timerId = setInterval(async () => {
