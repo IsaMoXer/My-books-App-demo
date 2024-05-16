@@ -77,8 +77,6 @@
                 };
             });            
         });
-
-        windows.location.reload();
         
         await sendServerToken();
 		timerId = setInterval(async () => {
