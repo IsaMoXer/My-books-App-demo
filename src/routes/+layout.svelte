@@ -2,7 +2,7 @@
   import "../app.css"
   import {  onMount } from 'svelte';
   import { auth, db } from "$lib/firebase/firebaseConfig";
-  import { getDoc, doc, setDoc } from "firebase/firestore";
+  import { getDoc, doc, setDoc } from "@firebase/firestore";
   import { authStore, sendJWTToken } from "../stores/authStore";
   import { initBooks } from "../stores/books.svelte";
 

@@ -4,7 +4,7 @@ import {
   onAuthStateChanged,
   signInWithEmailAndPassword,
   signOut,
-} from "firebase/auth";
+} from "@firebase/auth";
 import { auth } from "$lib/firebase/firebaseConfig.js";
 import { readable, writable } from "svelte/store";
 import { browser } from "$app/environment";
