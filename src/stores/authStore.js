@@ -28,15 +28,15 @@ export const authHandlers = {
     await fetch("/logout");
     // Clear the books store after logout
     clearBooksStore();
-    /* localStorage.clear();
+    localStorage.clear();
     sessionStorage.clear();
-    window.location.reload(); */
+    window.location.reload();
   },
 };
 
 const clearBooksStore = () => {
-  const { books } = useBookStore();
-  books.set([]);
+  let { books } = useBookStore();
+  books = [];
   console.log("Cleared the books store after logout");
 };
 
