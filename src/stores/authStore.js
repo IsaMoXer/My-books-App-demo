@@ -4,11 +4,10 @@ import {
   onAuthStateChanged,
   signInWithEmailAndPassword,
   signOut,
-} from "@firebase/auth";
+} from "firebase/auth";
 import { auth } from "$lib/firebase/firebaseConfig.js";
 import { readable, writable } from "svelte/store";
 import { browser } from "$app/environment";
-import { useBookStore } from "./books.svelte";
 
 export const authStore = writable({
   user: null,
@@ -28,18 +27,12 @@ export const authHandlers = {
     await fetch("/logout");
     // Clear the books store after logout
     //clearBooksStore();
-    const bookStore = useBookStore();
-    bookStore.resetBooks();
+    /*  const bookStore = useBookStore();
+    bookStore.resetBooks(); */
     /* localStorage.clear();
     sessionStorage.clear();
     window.location.reload(); */
   },
-};
-
-const clearBooksStore = () => {
-  let { books } = useBookStore();
-  books = [];
-  console.log("Cleared the books store after logout");
 };
 
 ////////////////////////////////////////////////
