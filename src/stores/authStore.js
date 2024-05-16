@@ -26,8 +26,8 @@ export const authHandlers = {
   logout: async () => {
     await signOut(auth);
     await fetch("/logout");
-    clearBooksStore();
     // Clear the books store after logout
+    clearBooksStore();
   },
 };
 
