@@ -4,7 +4,7 @@ let books = $state([]);
 
 const initBooks = async () => {
   const booksFB = await bookApi.getBooks();
-  books = booksFB;
+  books = [...booksFB];
 };
 
 const useBookStore = () => {

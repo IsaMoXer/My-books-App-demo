@@ -12,6 +12,15 @@
 
   // BookStore is not updated on time to be listed
   console.log('Bookstore from BookList component: ', bookStore.books);// To be removed!!!Used for debugging
+
+  $effect(()=>{
+    if(bookStore.books.length === 0){
+      initBooks();
+      console.log('Bookstore empty, run effect');
+    }
+  })
+
+
   let dispatch = createEventDispatcher();
   let selectedBook = $state(null); 
   let editingdBook = $state(null); 
@@ -42,7 +51,7 @@
     updateBook(id, updatedBook);
     console.log('isFavourite property toggled successfully');
     initBooks();
-
+    //window.location.reload();
   }
 
   const handleOrderBy = () => {
