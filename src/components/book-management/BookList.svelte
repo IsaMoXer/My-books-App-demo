@@ -12,20 +12,28 @@
 
   // BookStore is not updated on time to be listed
   console.log('Bookstore from BookList component: ', bookStore.books);// To be removed!!!Used for debugging
-
+  // This effect triggers a re-render the first time the app is open
   $effect(()=>{
     if(bookStore.books.length === 0){
       initBooks();
       console.log('Bookstore empty, run effect');
     }
   })
-
+  // This effect triggers a re-render when any book is bookmarked
+  $effect(()=>{
+    if (isFavouriteUpdated) {
+      // Re-render the affected book item
+      console.log('Favorite status updated, re-rendering...');
+      initBooks();
+    }
+  })
 
   let dispatch = createEventDispatcher();
   let selectedBook = $state(null); 
   let editingdBook = $state(null); 
   let selectedOption = $state("");
   let orderedBookList = $state([]);
+  let isFavouriteUpdated = $state(false);
  
   
   const handleViewBook = () => {
@@ -50,6 +58,7 @@
     console.log('Updated book with isFavourite prop toggled: ', updatedBook, 'Fav: ', updatedBook.isFavourite);
     updateBook(id, updatedBook);
     console.log('isFavourite property toggled successfully');
+    isFavouriteUpdated = !isFavouriteUpdated; // Toggle the state to trigger a re-render
     initBooks();
     //window.location.reload();
   }
