@@ -5,6 +5,7 @@
   import { authStore, authStoreRead } from '../../stores/authStore';
   import { updateBook } from '../../http-actions/books-api';
 
+  let initialFetchCompleted = $state(false);
 
   console.log('User from client side------------> ', $authStore.user);
   console.log('Active User from client side------------> ', $authStoreRead.isActive);
@@ -12,9 +13,10 @@
 
   // This effect triggers a re-render the first time the app is open
   $effect(()=>{
-    if(bookStore.books.length === 0){
+    if(bookStore.books.length === 0 && !initialFetchCompleted){
       initBooks();
       console.log('Bookstore empty, run effect');
+      initialFetchCompleted = true;
     }
   })
 
