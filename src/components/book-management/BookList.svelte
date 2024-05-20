@@ -10,8 +10,6 @@
   console.log('Active User from client side------------> ', $authStoreRead.isActive);
   const bookStore = useBookStore();
 
-  // BookStore is not updated on time to be listed
-  console.log('Bookstore from BookList component: ', bookStore.books);// To be removed!!!Used for debugging
   // This effect triggers a re-render the first time the app is open
   $effect(()=>{
     if(bookStore.books.length === 0){
@@ -19,11 +17,11 @@
       console.log('Bookstore empty, run effect');
     }
   })
+
   // This effect triggers a re-render when any book is bookmarked
   $effect(()=>{
-    if (isFavouriteUpdated) {
-      // Re-render the affected book item
-      console.log('Favorite status updated, re-rendering...');
+    if(isFavouriteUpdated !== undefined){
+      console.log("Effect run for toggleBookmark", isFavouriteUpdated);
       initBooks();
     }
   })
@@ -34,7 +32,7 @@
   let selectedOption = $state("");
   let orderedBookList = $state([]);
   let isFavouriteUpdated = $state(false);
- 
+
   
   const handleViewBook = () => {
     console.log('handleViewBook event pressed!');
