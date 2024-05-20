@@ -8,22 +8,34 @@
   let authenticating = $state(false);
   let error = $state(false);
   let errorConfirm = $state(false);
+  let errorFormat = $state(false);
 
   async function handleAuthenticate() {
     if (authenticating) {
             return;
         }
 
-    if (!validateEmail(email) || !validatePassword(password) || (register && !confirmPass)) {
-      error = true;
+    // Reset all errors everytime we submit the form
+    error, errorConfirm, errorFormat = false;
+
+    // Error when REGISTERing and wrong format or empty fields
+    if ((register && !validateEmail(email)) || (register && !validatePassword(password))) {
+      errorFormat = true;
       return;
-    }
+    }    
 
     if(register && password !== confirmPass) {
       errorConfirm = true;
       return
     }
 
+    if (!email || !password || (register && !confirmPass)) {
+      error = true;
+      return;
+    }
+
+    
+    // Once data is validated, set authenticating to true
     authenticating = true;
 
     try {
@@ -59,7 +71,11 @@
   <img src="/images/Book_app_logo.png" alt="Logo" class="h-20 w-auto mb-6">
   <form class="flex flex-col gap-6 my-0 mx-auto w-60 sm:w-96">
     <h1 class="text-4xl text-center font-bold">{register ? "Register" : "Login"}</h1>
-    {#if error}
+
+    <!-- Checking for errors -->
+    {#if errorFormat}
+    <p class="text-coral-css text-sm text-center">Email or password don't have the right format. Password must contain at least 8 characters, one capital letter, one lowercase letter and one number.</p>
+    {:else if error}
     <p class="text-coral-css text-sm text-center">The email address or the password are not correct!</p>
     {:else if errorConfirm}
     <p class="text-coral-css text-sm text-center">Your password and confirmation password do not match!</p>
