@@ -155,12 +155,12 @@ My Books App is a book tracking application built with Tailwind CSS, Svelte, Sve
 ### Delete Book
 
 - **Endpoint**: `/api/books/{id}`
-- **Method**: DELETE
+- **Method**: <span style="font-family: 'Courier New', monospace;">DELETE</span>
 - **Description**: Deletes a book from the user's collection
 - **Path Parameter**:
   - id (string) - ID of the book to delete
 
-These API endpoints should be implemented in the `routes/api/books/+server.js` file and/or in the `routes/api/books/[id]/+server.js file of the app's folder structure, as mentioned in the provided documentation. The API will handle the CRUD operations and interact with the Firebase database to store and retrieve book data for each authenticated user.
+These API endpoints should be implemented in the `routes/api/books/+server.js` file and/or in the `routes/api/books/[id]/+server.js` file of the app's folder structure, as mentioned in the provided documentation. The API will handle the CRUD operations and interact with the Firebase database to store and retrieve book data for each authenticated user.
 
 #### User Authentication Validation
 
