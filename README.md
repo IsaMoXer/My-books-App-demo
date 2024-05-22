@@ -155,7 +155,7 @@ My Books App is a book tracking application built with Tailwind CSS, Svelte, Sve
 ### Delete Book
 
 - **Endpoint**: `/api/books/{id}`
-- **Method**: <span style="font-family: 'Courier New', monospace;">DELETE</span>
+- **Method**: <span style="font-family: 'Courier New', monospace; color: grey;">DELETE</span>
 - **Description**: Deletes a book from the user's collection
 - **Path Parameter**:
   - id (string) - ID of the book to delete
