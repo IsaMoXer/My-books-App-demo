@@ -4,7 +4,6 @@
 
   // This is the book that comes as a prop if user wants to update it
   let { book } = $props();
-  console.log("Book property: ", book);
 
   // State variables for the form (both adding and updating)
   let name = $state("");
@@ -43,12 +42,6 @@
   // User wants to cancel the update after clicking update button and populating all fields in the form
   function handleCancelUpdate() {
     book = {}; 
-   /*  name = "";
-    author = "";
-    pages = null;
-    isbn = "";
-    cover_url = "";
-    description = ""; */
   };
 
   const addBook = async () => {
@@ -65,17 +58,14 @@
       cover_url,
       author,
       description,
-      //isFavourite,
     };
       // The book id cannot be updated, so the existing id is added to the udpatedBook object
       updatedBook.id = book.id;
 
-      console.log('Book before updateing: ', updatedBook);
       
       // Check if the book to update has actually changed
       if (hasBookDataChanged(book, updatedBook)) {
       const response = await updateBook(updatedBook.id, updatedBook);
-      console.log('Book after updating: ', updatedBook);
 
       if (response.error) {
         error = true;
@@ -86,7 +76,6 @@
       isLoading = false;
       // Empty the book once the update is done so that state can be updated to show the right info
       book = {};
-      console.log('Book emptied', book);
 
       // Empty the form's fields once the update is done
       name = "";
@@ -96,12 +85,10 @@
       cover_url = "";
       description = "";
 
-      console.log("Book updated!");
       // Init books, so that the component can be re-rendered, therefore updated with new changes without refreshing.
       initBooks();
       return;
     } else {
-      console.log("No changes detected, skipping update.");
       alert("You are trying to update a book you haven't modified!");
       isLoading = false;
       return;
@@ -133,12 +120,7 @@
     isbn = "";
     cover_url = "";
     description = "";
-
-    console.log("Book added!");
-    console.log('This is the added book: ', bookData)
   };
-
-
 </script>
 
 
@@ -153,22 +135,16 @@
 <form class="max-w-sm mx-auto">
   <h1 class="text-center mb-12">ADD A BOOK</h1>
 
-  <!-- <label for="name" class="block mb-2 text-sm">Book name:</label> -->
   <input type="text" id="name" name="name" bind:value={name} placeholder="Book title" class="block w-full p-2 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500" /><br />
 
-  <!-- <label for="author" class="block mb-2 text-sm">Author:</label> -->
   <input type="text" id="author" name="author" bind:value={author} placeholder="Author" class="block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500" /><br />
 
-  <!-- <label for="pages" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Number of pages:</label> -->
   <input type="number" id="pages" name="pages" bind:value={pages} placeholder="Number of pages" class="block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500" /><br />
 
-  <!-- <label for="isbn" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">ISBN:</label> -->
   <input type="text" id="isbn" name="isbn" bind:value={isbn} placeholder="isbn" class="block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500" /><br />
 
-  <!-- <label for="cover_url" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Image url:</label> -->
   <input type="text" id="cover_url" name="cover_url" bind:value={cover_url} placeholder="Cover URL" class="block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500" /><br />
   
-  <!-- <label for="description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your description:</label> -->
   <textarea id="description" bind:value={description} rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Write your thoughts here..." maxlength="300"></textarea>
   <br />
   <div class="text-center">

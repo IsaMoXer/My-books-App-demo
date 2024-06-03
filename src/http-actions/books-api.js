@@ -3,12 +3,10 @@ import { useBookStore } from "../stores/books.svelte.js";
 const getBooks = async () => {
   const response = await fetch("/api/books");
 
-  console.log("Fethching books from books-api..");
   return await response.json();
 };
 
 const createBook = async book => {
-  console.log("Book received from component form: ", book);
   const response = await fetch("/api/books", {
     method: "POST",
     headers: {
@@ -22,7 +20,6 @@ const createBook = async book => {
     const bookStore = useBookStore();
     bookStore.addBook(data);
   }
-  console.log("Book returned from stores: ", data);
   return data;
 };
 

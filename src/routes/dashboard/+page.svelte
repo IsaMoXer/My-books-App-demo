@@ -18,8 +18,6 @@
     selBook = {};
     edBook = e.detail;
     showBookView = false;
-    console.log('Edit event reached the BookList', edBook);
-  console.log('Book object length: ', Object.keys(edBook).length)}
    
   const onDeleteBook = () => {
     edBook = {}

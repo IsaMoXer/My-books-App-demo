@@ -14,7 +14,6 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-//initializeApp(firebaseConfig);
 let firebaseApp;
 if (!getApps().length) {
   firebaseApp = initializeApp(firebaseConfig);

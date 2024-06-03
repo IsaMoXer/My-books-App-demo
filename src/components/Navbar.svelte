@@ -38,10 +38,6 @@
 function handleToggleOpenMenu() {
   isMenuOpen = !isMenuOpen;
 }
-
-/* function handleToggleSearch() {
-  console.log('Search button clicked!');
-} */
 </script>
 
 
@@ -85,15 +81,7 @@ function handleToggleOpenMenu() {
         <button class="text-white hover:text-orange-400" on:click={handleToggleOpenMenu}>
           <i class="fa-solid fa-bars"></i>
         </button>
-      </div>  
-
-      <!-- Search Icon hidden for big screens-->
-      <!-- <div class="flex md:hidden">
-        <button class="text-white hover:text-orange-400" on:click={handleToggleSearch}>
-          <i class="fa-solid fa-magnifying-glass"></i>
-        </button>
-      </div> -->
-  
+      </div>   
   </div>
 </nav>
 

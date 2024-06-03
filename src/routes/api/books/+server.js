@@ -1,18 +1,9 @@
 import { json } from "@sveltejs/kit";
 import { db } from "$lib/firebase/firebaseConfig.js";
-//import { db } from "$lib/firebase/firebase.server.js";
-import {
-  collection,
-  addDoc,
-  onSnapshot,
-  doc,
-  query,
-  where,
-} from "firebase/firestore";
+import { collection, addDoc, onSnapshot } from "firebase/firestore";
 
 // collection reference
 const colRef = collection(db, "books");
-//const colRef = db.collection("books");
 
 let booksDB = [];
 
@@ -28,9 +19,6 @@ export async function GET({ locals }) {
         booksDB.push({ ...bookData, id: doc.id });
       }
     });
-    console.log(
-      "Books fetched when change on database detected (server side)!"
-    );
   });
   return json(booksDB);
 }

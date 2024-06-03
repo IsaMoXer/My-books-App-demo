@@ -12,7 +12,6 @@
       toggleModal();
     } 
   }
-/*   document.addEventListener('keydown', handleEscape); */
 
 </script>
 <svelte:window on:keydown|preventDefault={handleEscape}/>
@@ -24,7 +23,6 @@
     <!-- Book list -->
     <div class="flex flex-col gap-2 max-h-screen overflow-y-auto" style="scrollbar-width: none;">
       <img src="/images/hearts.png" alt="Logo" class="w-32 h-auto m-auto py-4">
-      <!-- <img src="" alt="book love image"/> -->
       <h1 class="text-center mb-8">YOUR FAVOURITE BOOKS</h1>
 
       {#if $authStore.isLoading}

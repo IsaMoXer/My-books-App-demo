@@ -7,15 +7,12 @@
 
   let initialFetchCompleted = $state(false);
 
-  console.log('User from client side------------> ', $authStore.user);
-  console.log('Active User from client side------------> ', $authStoreRead.isActive);
   const bookStore = useBookStore();
 
   // This effect triggers a re-render the first time the app is open
   $effect(()=>{
     if(bookStore.books.length === 0 && !initialFetchCompleted){
       initBooks();
-      console.log('Bookstore empty, run effect');
       initialFetchCompleted = true;
     }
   })
@@ -23,7 +20,6 @@
   // This effect triggers a re-render when any book is bookmarked
   $effect(()=>{
     if(isFavouriteUpdated !== undefined){
-      console.log("Effect run for toggleBookmark", isFavouriteUpdated);
       initBooks();
     }
   })
@@ -37,12 +33,10 @@
 
   
   const handleViewBook = () => {
-    console.log('handleViewBook event pressed!');
     dispatch('viewBook', selectedBook);
   }
 
   const handleEditBook = () => {
-    console.log('handleEditBook event pressed!');
     dispatch('editBook', editingdBook);
   }
 
@@ -51,16 +45,11 @@
     dispatch('deleteBook');
   }
 
-  const handleToggleFavourite = (id, book) => {
-    console.log('You clicked on Favs!', id);
-  
+  const handleToggleFavourite = (id, book) => {  
     const updatedBook = {...book, isFavourite: !book.isFavourite};
-    console.log('Updated book with isFavourite prop toggled: ', updatedBook, 'Fav: ', updatedBook.isFavourite);
     updateBook(id, updatedBook);
-    console.log('isFavourite property toggled successfully');
     isFavouriteUpdated = !isFavouriteUpdated; // Toggle the state to trigger a re-render
     initBooks();
-    //window.location.reload();
   }
 
   const handleOrderBy = () => {

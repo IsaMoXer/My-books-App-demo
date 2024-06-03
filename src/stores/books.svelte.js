@@ -10,12 +10,10 @@ const initBooks = async () => {
 const useBookStore = () => {
   return {
     get books() {
-      console.log("Using the useBookStore to get the books!!!!!!!!!");
       return books;
     },
     addBook: book => {
       books = [...books, book];
-      console.log("Book from store after adding it: ", book);
     },
     deleteBook: id => {
       books = books.filter(book => book.id !== id);
@@ -25,10 +23,6 @@ const useBookStore = () => {
         book.id === id ? { ...book, ...updatedBook } : book
       );
     },
-    /* resetBooks: () => {
-      books = [];
-      console.log("Books reseted: ", books);
-    }, */
   };
 };
 

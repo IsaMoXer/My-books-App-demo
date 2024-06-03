@@ -17,8 +17,6 @@ let isLoggedIn = data.isLoggedIn;
 $: isLoggedIn = $authStoreRead.isActive ? $authStoreRead.isLoggedIn : data.isLoggedIn;
 
 onMount(() => {
-  console.log('Mounting dashboard...');
-  console.log('/*/*/*/*/*/*Islogged in 1 : ', isLoggedIn);
   if(data.loggedIn ){
     console.log('USER LOGGED IN!!!');
   }

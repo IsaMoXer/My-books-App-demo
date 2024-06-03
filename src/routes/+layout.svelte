@@ -19,28 +19,23 @@
    
   const nonAuthRoutes = ["/"];
   onMount(async () => {
-    console.log('Mounting register/login page...');
     try {
     const unsubscribe = auth.onAuthStateChanged(async (user) => {
             await sendJWTToken();
             const currentPath = window.location.pathname;
 
              if (!user && !nonAuthRoutes.includes(currentPath)) {
-                console.log('Client, no user trying to access unauthorized paths')
                 window.location.href = "/";
                 return;
             }
 
             if (user && currentPath === "/") {
-                console.log('Client side, user trying to login when already logged in');
                 window.location.href = "/dashboard";
                 initBooks();
                 return;
             } 
             
             if (!user) {
-                // Clean up data when user logs out
-                //authStore.update(() => ({ user: null, data: null, isLoading: false }));
                 return;
             } 
 
@@ -50,7 +45,6 @@
             const docSnap = await getDoc(docRef);           
 
             if (!docSnap.exists()) {
-                console.log("Creating User");
                 const userRef = doc(db, "users", user.uid);
                 
                 dataToSetToStore = {
@@ -62,9 +56,7 @@
             
             // There is a user created already, fetching info from database...
             } else {
-                console.log("Fetching User");
                 const userData = docSnap.data();
-                console.log('User Data: ', userData);
                 dataToSetToStore = userData;
             }
             // Update the client side from server (database)

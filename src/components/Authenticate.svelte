@@ -127,11 +127,6 @@
     padding: 4px 8px;
   }
 
-  /* input:focus {
-    border:none;
-    outline: none;
-  } */
-
   .loadingSpinner {
         animation: spin 1s linear infinite;
     }

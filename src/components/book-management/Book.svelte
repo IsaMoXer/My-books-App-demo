@@ -8,11 +8,6 @@
   <div class="lg:w-1/2">
     <div class="max-w-64 h-auto m-auto bg-gray-200 flex items-center justify-center">
       <img class="h-full w-full object-cover" src={book.cover_url} alt="cover of the book">
-      <!-- {#if book.cover_url && book.cover_url !== ""}
-      <img src={book.cover_url} alt="cover of the book" class="h-full w-full object-cover">
-      {:else}
-      <p class="text-center">Cover of the book not available!</p>
-      {/if} -->
     </div>
   </div>
   <!-- Book data -->
